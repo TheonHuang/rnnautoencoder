@@ -42,7 +42,6 @@ biases = {
 }
 #defineend
 
-#rnn网络
 def RNN(X, weights, biases):
     # hidden layer for input to cell
     ########################################
@@ -76,16 +75,14 @@ def RNN(X, weights, biases):
 
     # # or
     # unpack to list [(batch, outputs)..] * steps
-    #设置了版本问题，不同版本不同的形式
     if int((tf.__version__).split('.')[1]) < 12 and int((tf.__version__).split('.')[0]) < 1:
         outputs = tf.unpack(tf.transpose(outputs, [1, 0, 2]))    # states is the last outputs
     else:
         outputs = tf.unstack(tf.transpose(outputs, [1,0,2]))
-        #outputs[-1]为最后一步step 的 ht表示
     results = tf.matmul(outputs[-1], weights['out']) + biases['out']    # shape = (128, 10)
 
     return results
-#rnn网络end
+
 
 
 
@@ -126,11 +123,9 @@ with tf.Session() as sess:
     encode_decode = sess.run(
         y_pred, feed_dict={X: mnist.test.images[:128]})
     # Compare original images with their reconstructions
-    print('love')
     f, a = plt.subplots(2, 10, figsize=(10, 2))
-    print('you')
     for i in range(10):
-        print("baby")
+
         a[0][i].imshow(np.reshape(mnist.test.images[i], (28, 28)))
         a[1][i].imshow(np.reshape(encode_decode[i], (28, 28)))
     plt.show()
