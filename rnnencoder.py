@@ -1,4 +1,4 @@
-from __future__ import division, print_function, absolute_import
+
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
@@ -8,7 +8,7 @@ mnist = input_data.read_data_sets("MNIST_data", one_hot=False)
 
 
 
-tf.reset_default_graph()  
+tf.reset_default_graph()
 
 #rnn参数
 lr = 0.01
@@ -83,10 +83,10 @@ def RNN(X, weights, biases):
         outputs = tf.unstack(tf.transpose(outputs, [1,0,2]))
         #outputs[-1]为最后一步step 的 ht表示
     results = tf.matmul(outputs[-1], weights['out']) + biases['out']    # shape = (128, 10)
-    
+
     return results
 #rnn网络end
-    
+
 
 
 
@@ -107,11 +107,11 @@ print("ca")
 with tf.Session() as sess:
     init = tf.global_variables_initializer()
     sess.run(init)
-    #total_batch = int(mnist.train.num_examples/batch_size)   
-    for epoch in range(50):        
+    #total_batch = int(mnist.train.num_examples/batch_size)
+    for epoch in range(50):
         # Loop over all batches
         for i in range(200):
-            
+
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)  # max(x) = 1, min(x) = 0
             # Run optimization op (backprop) and cost op (to get loss value)
             _, c = sess.run([optimizer, cost], feed_dict={X: batch_xs})
@@ -122,7 +122,7 @@ with tf.Session() as sess:
     print("Optimization Finished!")
     # # Applying encode and decode over test set
     #test
-    
+
     encode_decode = sess.run(
         y_pred, feed_dict={X: mnist.test.images[:128]})
     # Compare original images with their reconstructions
@@ -134,10 +134,10 @@ with tf.Session() as sess:
         a[0][i].imshow(np.reshape(mnist.test.images[i], (28, 28)))
         a[1][i].imshow(np.reshape(encode_decode[i], (28, 28)))
     plt.show()
-    
+
 # =============================================================================
-    
-#run test imageerror   
+
+#run test imageerror
 # =============================================================================
 # with tf.Session() as sess:
 #     init = tf.global_variables_initializer()
